@@ -6,6 +6,7 @@ import LoginScreen from '../screens/Login'
 import CadastroScreen from '../screens/Cadastro'
 import HomeScreen from '../screens/Home'
 import ListUsuariosScreen from '../screens/ListUsuarios'
+import AuthLoadingScreen from '../screens/AuthLoadingScreen'
 
 const LCNavigator = createStackNavigator({
     Login: LoginScreen,
@@ -25,11 +26,12 @@ const TabNavigator = createBottomTabNavigator({
 export default createAppContainer(
     createSwitchNavigator(
     {
+      AuthLoading: AuthLoadingScreen,
       LC: LCNavigator,
       Tab: TabNavigator,
     },
     {
-      initialRouteName: 'LC',
+      initialRouteName: 'AuthLoading',
     }
     )
 )

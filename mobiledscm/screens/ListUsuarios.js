@@ -1,14 +1,14 @@
 import React from 'react'
 import { Text, View, Button, StyleSheet } from 'react-native'
 
-//import firebase from 'react-native-firebase'
+import auth from '@react-native-firebase/auth'
 
 const ListUsuarios = (props) => {
     return (
         <View style={styles.screen}>
             <Text>ListUsuarios</Text>
             <Button title="Sair" onPress={()=> {
-                //firebase.auth().signOut()
+                auth().signOut()
                 props.navigation.navigate('Login')
             }}/>
         </View>
