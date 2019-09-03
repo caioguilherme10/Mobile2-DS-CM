@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Text, View, Button, StyleSheet, TextInput } from 'react-native'
 
-import firebase from 'react-native-firebase'
+//import firebase from 'react-native-firebase'
 
 const Login = (props) => {
 
@@ -27,9 +27,9 @@ const Login = (props) => {
                 props.navigation.navigate('Cadastro')
             }}/>
             <Button title="Logar" onPress={()=> {
-                firebase.auth().signInWithEmailAndPassword(email,senha).then(() => {
+                //firebase.auth().signInWithEmailAndPassword(email,senha).then(() => {
                     props.navigation.navigate('Home')
-                })
+                //})
             }}/>
         </View>
     )
