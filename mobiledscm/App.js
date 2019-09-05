@@ -4,15 +4,16 @@ import Navigator from './navigation/Navigator'
 import user from './store/reducers/User'
 import auth from './store/reducers/Auth'
 
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import ReduxThunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
   user,
   auth
 })
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 const App = () => {
   return (
