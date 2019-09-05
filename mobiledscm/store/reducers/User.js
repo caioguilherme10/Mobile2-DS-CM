@@ -1,3 +1,5 @@
+import { ADD_AUTH_USER_FIREBASE } from "../actions/types";
+
 const initialState = {
     _id: '',
     nome: '',
@@ -8,11 +10,17 @@ const initialState = {
         rua: '',
         bairro: '',
         cidade: ''
-    }
+    },
+    uid: ''
 }
 
 const userReducer = (state = initialState, action) => {
-    return state
+    switch(action.type){
+        case ADD_AUTH_USER_FIREBASE: 
+            return { ...state,  uid: action.payload.uid , email: action.payload.email }
+        default:
+            return state
+    }
 }
 
 export default userReducer

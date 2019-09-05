@@ -1,15 +1,24 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  AsyncStorage,
   StatusBar,
-  StyleSheet,
   View,
+  Text
 } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+
+import { addAuthUserFirebase } from '../store/actions/index'
+
 class AuthLoadingScreen extends React.Component {
+
+  constructor(props) {
+    super(props)
+  }
+
     componentDidMount() {
       this._bootstrapAsync();
     }
@@ -17,19 +26,26 @@ class AuthLoadingScreen extends React.Component {
     // Fetch the token from storage then navigate to our appropriate place
     _bootstrapAsync = async () => {
       //const userToken = await AsyncStorage.getItem('userToken');
-        let userToken = 'LC'
+        //let userToken = 'LC'
         await auth().onAuthStateChanged((user) => {
             if (user) {
                 let email = user.email;
                 let uid = user.uid;
-                userToken = 'Tab'
+                let userToken2 = 'Tab'
+                this.props.addAuthUserFirebase(uid,email,userToken2)
+                //userToken = 'Tab'
             }else {
-                userToken = 'LC'
+                let email = '';
+                let uid = '';
+                let userToken2 = 'LC'
+                //userToken = 'LC'
+                this.props.addAuthUserFirebase(uid,email,userToken2)
             }
         })
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      this.props.navigation.navigate(userToken ? 'Tab' : 'LC');
+      this.props.navigation.navigate(this.props.auth.userToken ? 'Tab' : 'LC');
+      //this.props.navigation.navigate(userToken ? 'Tab' : 'LC');
     };
   
     // Render any loading content that you like here
@@ -43,4 +59,8 @@ class AuthLoadingScreen extends React.Component {
     }
 }
 
-export default AuthLoadingScreen
+const MapStateToProps = state => ({ auth: state.auth })
+
+const MapDispatchToProps = dispatch => bindActionCreators({ addAuthUserFirebase }, dispatch)
+
+export default connect(MapStateToProps, MapDispatchToProps)(AuthLoadingScreen)

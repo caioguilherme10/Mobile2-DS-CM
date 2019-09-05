@@ -1,10 +1,17 @@
+import { ADD_AUTH_USER_FIREBASE } from "../actions/types";
+
 const initialState = {
-    uuid: '',
-    userToken: 'Auth',
+    uid: '',
+    userToken: '',
 }
 
 const authReducer = (state = initialState, action) => {
-    return state
+    switch(action.type){
+        case ADD_AUTH_USER_FIREBASE:
+            return { ...state, uid: action.payload.uid , userToken: action.payload.userToken }
+        default:
+            return state
+    }
 }
 
 export default authReducer
