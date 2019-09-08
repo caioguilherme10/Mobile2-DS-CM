@@ -1,18 +1,43 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState , useEffect, useCallback } from 'react'
 import { Text, View, Button, StyleSheet } from 'react-native'
 
 import auth from '@react-native-firebase/auth'
 
-import { useSelector } from 'react-redux'
+import { useSelector , useDispatch } from 'react-redux'
+import { getUser } from '../store/actions/index'
+
+import jwtDecode from 'jwt-decode'
 
 const Home = (props) => {
 
     //const [user, setUser] = useState('');
+    const token = useSelector(state => state.auth.access_token)
 
-    //useEffect(() => {
+    const dispatch = useDispatch()
+
+    const recuperarUser = () => {
+        if(token === ''){
+            
+        }else {
+            let id2 = '5d74df0f80590f0029f7d858'
+            dispatch(getUser(token,id2))
+        }
+    }
+
+    useEffect(() => {
+        /* if(token === ''){
+            
+        }else {
+            //let decoded = jwtDecode(token, {complete: true})
+            //console.log(decoded)
+            //let id = decoded.payload._id
+            let id2 = '5d74df0f80590f0029f7d858'
+            useDispatch(getUser(token,id2))
+        } */
+        recuperarUser()
+    },[token])
+
     const inicialuser = useSelector(state => state.user)
-    //    setUser(inicialuser)
-    //},[])
 
     return (
         <View style={styles.screen}>
@@ -28,6 +53,12 @@ const Home = (props) => {
             <Button title="Sair" onPress={()=> {
                 auth().signOut()
                 props.navigation.navigate('Login')
+            }}/>
+            <Button title="Editar" onPress={()=> {
+                
+            }}/>
+            <Button title="Excluir" onPress={()=> {
+                
             }}/>
         </View>
     )

@@ -1,4 +1,4 @@
-import { ADD_AUTH_USER_FIREBASE, CADASTRAR_USER } from "../actions/types";
+import { ADD_AUTH_USER_FIREBASE, CADASTRAR_USER, GET_USER } from "../actions/types";
 
 const initialState = {
     _id: '',
@@ -19,6 +19,8 @@ const userReducer = (state = initialState, action) => {
         case ADD_AUTH_USER_FIREBASE: 
             return { ...state,  uid: action.payload.uid , email: action.payload.email }
         case CADASTRAR_USER:
+            return { ...state, ...action.payload}
+        case GET_USER:
             return { ...state, ...action.payload}
         default:
             return state

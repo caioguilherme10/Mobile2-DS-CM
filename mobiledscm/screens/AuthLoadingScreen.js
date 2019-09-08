@@ -11,7 +11,7 @@ import auth from '@react-native-firebase/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
-import { addAuthUserFirebase } from '../store/actions/index'
+import { addAuthUserFirebase , getToken } from '../store/actions/index'
 
 class AuthLoadingScreen extends React.Component {
 
@@ -33,6 +33,7 @@ class AuthLoadingScreen extends React.Component {
                 let uid = user.uid;
                 let userToken2 = 'Tab'
                 this.props.addAuthUserFirebase(uid,email,userToken2)
+                this.props.getToken(uid)
                 //userToken = 'Tab'
             }else {
                 let email = '';
@@ -61,6 +62,6 @@ class AuthLoadingScreen extends React.Component {
 
 const MapStateToProps = state => ({ auth: state.auth })
 
-const MapDispatchToProps = dispatch => bindActionCreators({ addAuthUserFirebase }, dispatch)
+const MapDispatchToProps = dispatch => bindActionCreators({ addAuthUserFirebase , getToken }, dispatch)
 
 export default connect(MapStateToProps, MapDispatchToProps)(AuthLoadingScreen)
