@@ -7,21 +7,23 @@ import CadastroScreen from '../screens/Cadastro'
 import HomeScreen from '../screens/Home'
 import ListUsuariosScreen from '../screens/ListUsuarios'
 import AuthLoadingScreen from '../screens/AuthLoadingScreen'
+import EditUserScreen from '../screens/EditUser'
 
 const LCNavigator = createStackNavigator({
     Login: LoginScreen,
     Cadastro: CadastroScreen
 })
 
-const TabNavigator = createBottomTabNavigator({
+const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
+    EditUser: EditUserScreen
+})
+
+const TabNavigator = createBottomTabNavigator({
+    Home: HomeNavigator,
     ListUsuarios: ListUsuariosScreen,
 });
 
-/* const MainNavigator = createStackNavigator({
-    LCNavigator: LCNavigator,
-    TabNavigator: TabNavigator
-}) */
 
 export default createAppContainer(
     createSwitchNavigator(

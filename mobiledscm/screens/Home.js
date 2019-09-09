@@ -4,14 +4,15 @@ import { Text, View, Button, StyleSheet } from 'react-native'
 import auth from '@react-native-firebase/auth'
 
 import { useSelector , useDispatch } from 'react-redux'
-import { getUser } from '../store/actions/index'
+import { getUser, excluirUser } from '../store/actions/index'
 
-import jwtDecode from 'jwt-decode'
+//import jwtDecode from 'jwt-decode'
 
 const Home = (props) => {
 
     //const [user, setUser] = useState('');
     const token = useSelector(state => state.auth.access_token)
+    const uid = useSelector(state => state.auth.uid)
 
     const dispatch = useDispatch()
 
@@ -19,9 +20,12 @@ const Home = (props) => {
         if(token === ''){
             
         }else {
-            let id2 = '5d74df0f80590f0029f7d858'
-            dispatch(getUser(token,id2))
+            dispatch(getUser(token,uid))
         }
+    }
+
+    const removeUser = () => {
+        dispatch(excluirUser(token,uid))
     }
 
     useEffect(() => {
@@ -41,25 +45,29 @@ const Home = (props) => {
 
     return (
         <View style={styles.screen}>
-            <Text>Nome: {inicialuser.nome}</Text>
-            <Text>{inicialuser.email}</Text>
-            <Text>{inicialuser.telefone}</Text>
-            <Text>{inicialuser.datanascimento}</Text>
-            <Text>Endereço: </Text>
-            <Text>{inicialuser.endereco.rua}</Text>
-            <Text>{inicialuser.endereco.bairro}</Text>
-            <Text>{inicialuser.endereco.cidade}</Text>
-            <Text>{inicialuser.uid}</Text>
-            <Button title="Sair" onPress={()=> {
-                auth().signOut()
-                props.navigation.navigate('Login')
-            }}/>
-            <Button title="Editar" onPress={()=> {
-                
-            }}/>
-            <Button title="Excluir" onPress={()=> {
-                
-            }}/>
+            <View style={styles.texts}>
+                <Text style={styles.text}>Nome: {inicialuser.nome}</Text>
+                <Text style={styles.text}>Email: {inicialuser.email}</Text>
+                <Text style={styles.text}>Telefone: {inicialuser.telefone}</Text>
+                <Text style={styles.text}>Data de nascimento: {inicialuser.datanascimento}</Text>
+                <Text style={styles.text}>Endereço: </Text>
+                <Text style={styles.text}>      Rua: {inicialuser.endereco.rua}</Text>
+                <Text style={styles.text}>      Bairro: {inicialuser.endereco.bairro}</Text>
+                <Text style={styles.text}>      Cidade: {inicialuser.endereco.cidade}</Text>
+            </View>
+            <View style={styles.buttons}>
+                <Button title="Sair" onPress={()=> {
+                    auth().signOut()
+                    props.navigation.navigate('Login')
+                }}/>
+                <Button title="Editar" onPress={()=> {
+                    props.navigation.navigate('EditUser')
+                }}/>
+                <Button title="Excluir" onPress={()=> {
+                    removeUser()
+                    props.navigation.navigate('Login')
+                }}/>
+            </View>
         </View>
     )
 }
@@ -68,7 +76,20 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#121212'
+    },
+    buttons: {
+        flexDirection: 'row'
+    },
+    texts: {
+        elevation: 3,
+        backgroundColor: '#404040',
+        padding: 30,
+        margin: 10
+    },
+    text: {
+        color: '#FFFFFF'
     }
 })
 

@@ -2,6 +2,8 @@ import { LISTAR_USERS, CADASTRAR_USER, EDITAR_USER, EXCLUIR_USER ,SALVAR_AUTH, A
 
 import axios from 'axios'
 
+import auth from '@react-native-firebase/auth'
+
 export const addAuthUserFirebase = (uid, email, token) => {
     return {type: ADD_AUTH_USER_FIREBASE, payload: { uid: uid, email: email, userToken: token}}
 }
@@ -44,9 +46,9 @@ export const cadastrarUser = (user) => {
     }
 }
 
-export const getUser = (token , id) => {
+export const getUser = (token , uid) => {
     return dispatch => {
-        axios.get(`http://192.168.99.100:3333/users/${id}`, {
+        axios.get(`http://192.168.99.100:3333/users/${uid}`, {
             headers: { 
                 Authorization: "Bearer " + token
             }
@@ -80,7 +82,8 @@ export const listaUsers = (token) => {
 
 export const editarUser = (token, user) => {
     return dispatch => {
-        axios.put(`http://192.168.99.100:3333/users/${user._id}`,{
+        axios.put(`http://192.168.99.100:3333/users/${user.uid}`,{
+            _id: user._id,
             nome: user.nome,
             telefone: user.telefone,
             email: user.email,
@@ -101,6 +104,21 @@ export const editarUser = (token, user) => {
                 type: EDITAR_USER,
                 payload: response.data
             })
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
+}
+
+export const excluirUser = (token , uid) => {
+    return () => {
+        axios.delete(`http://192.168.99.100:3333/users/${uid}`,{
+            headers: { 
+                Authorization: "Bearer " + token
+            }
+        }
+        ).then(response => {
+            auth().currentUser.delete()
         }).catch(function (error) {
             console.log(error)
         })
