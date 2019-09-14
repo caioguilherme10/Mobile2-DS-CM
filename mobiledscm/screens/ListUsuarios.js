@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
-import { Text, View, Button, StyleSheet, FlatList } from 'react-native'
-
-import auth from '@react-native-firebase/auth'
+import { Text, View, StyleSheet, FlatList, ScrollView } from 'react-native'
 
 import { useSelector , useDispatch } from 'react-redux'
 import { listaUsers } from '../store/actions/index'
@@ -27,36 +25,39 @@ const ListUsuarios = (props) => {
     }, [])
 
     return (
-        <View style={styles.screen}>
-            <Text>ListUsuarios</Text>
-            <FlatList
-                data={users}
-                renderItem={({item}) => {
-                    if(email === item.email){
-                        return 
-                    }else {
-                        return <Text style={styles.item}>{item.nome}</Text>
-                    }
-                }}
-            />
-            <Button title="Sair" onPress={()=> {
-                auth().signOut()
-                props.navigation.navigate('Login')
-            }}/>
-        </View>
+        <ScrollView style={styles.screen}>
+            <View style={styles.card}>
+                <View>
+                    <FlatList
+                        data={users}
+                        renderItem={({item}) => {
+                            if(email === item.email){
+                                return 
+                            }else {
+                                return <Text style={styles.item}>{item.nome}</Text>
+                            }
+                        }}
+                    />
+                </View>
+            </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     screen: {
+        backgroundColor: '#121212',
+    },
+    card: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     item: {
       padding: 10,
       fontSize: 18,
       height: 44,
+      color: '#FFFFFF'
     },
 })
 
